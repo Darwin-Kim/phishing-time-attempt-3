@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "../idn-homographs-database"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {}
+}
