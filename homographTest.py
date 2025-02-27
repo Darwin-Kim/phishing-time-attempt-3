@@ -1,17 +1,25 @@
 import homograph
+from csv import writer
 from contextlib import suppress
 import random
+import pandas as pd
+import time
+
 iterations=0
 NumChangeLetter=1
 Base="docs.google.com"
 String="docs.google.com"
 
+links=pd.DataFrame(columns=['Date','Link'])
+TrustedLinks=pd.read_csv('TrustedLinks.csv')
+print(TrustedLinks)
+
 # Running the code to replace NumChangeLetter letters with similar
 # counterparts
 for i in range(NumChangeLetter):
 
-    # Telling the code which number to change. May make this number
-    # specifiable later.
+    # Randomizing which characters to change. May make this specifiable 
+    # later.
     changeLetter=random.randint(0, len(String)-1)
     homograph_generator = homograph.generate_similar_chars(String[changeLetter])
 
@@ -56,3 +64,12 @@ print(String)
 
 # Making sure that the final product is still homographic to the original
 print("Link 1:",String," Link 2:",Base," similar:",homograph.looks_similar(String,Base))
+for i in range(0,len(TrustedLinks)):
+    print(i)
+    if homograph.looks_similar(String, TrustedLinks['Link'][i]):
+        print(String, time.ctime())
+        for i in range(2):
+            links=links.append({'Link':String, 'Date':time.ctime()},ignore_index=True)
+print(links)
+links.to_csv('SusLinks.csv')
+   
