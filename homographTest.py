@@ -41,7 +41,7 @@ for i in range(NumChangeLetter):
         try:
             while homograph_generator != input[changeLetter]:
                 input=input[0:changeLetter]+next(homograph_generator)+input[changeLetter+1:]
-                print(input)
+                #print(input)
                 iterations+=1
 
         # TypeError will occur if the given character is not a letter, but 
@@ -51,11 +51,30 @@ for i in range(NumChangeLetter):
 
         except TypeError:
             pass
-linkToCheck=input
 # Printing the possibly suspiscious link to visualize it
-print(linkToCheck)
-#SusLinks=SusLinks.append()
-links.to_csv('BadLinks.csv', mode='a', index=False, header=False)   
+print(input)
+links=links.append({'Link':input,'Date':time.ctime()},ignore_index=True)
+print(links)
+bad=0
+
+# Checking if the link contains a character that is not a latin/special character
+for i in range(len(input)):
+    if input[i]!="a"or'b'or'c'or'd'or'e'or'f'or'g'or'h'or'i'or'j'or'k'or'l'or'm'or'n'or'o'or'p'or'q'or'r'or's'or't'or'u'or'v'or'w'or'x'or'y'or'z'or'A'or'B'or'C'or'D'or'E'or'F'or'G'or'H'or'I'or'J'or'K'or'L'or'M'or'N'or'O'or'P'or'Q'or'R'or'S'or'T'or'U'or'V'or'W'or'X'or'Y'or'Z'or'!'or"@"or'#'or'$'or'%'or'^'or'&'or'*'or'('or')'or'-'or'_'or'+'or'='or'{'or'['or']'or'}'or'`'or'~'or'\\'or'/'or'|'or','or'.':
+        bad=1
+
+# Running the code below if the link contains one of these characters
+if bad==1:
+    same=0
+    BadLinks=pd.read_csv('BadLinks.csv')
+
+    # Checking if the link is equivalent to a link already in the database, and adding it to the database if it isn't
+    for i2 in range(len(BadLinks)) and range(len(links)):
+        if not links.at[i2,'Link']==BadLinks.at[i2,'Link']:
+            links.to_csv('BadLinks.csv', mode='a', index=False, header=False)
+            
+# Adding the code to database of suspiscious links to be passed on to the second block if it is not immediately flagged as bad
+else:
+    links.to_csv('SusLinks.csv', mode='a', index=False, header=False)
 
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -79,5 +98,4 @@ for i in range(len(SusLinks)):
     if homograph.looks_similar(linkToCheck, TrustedLinks['Link'][i2]):
         print(input, time.ctime())
         links=links.append({'Link':linkToCheck, 'Date':time.ctime()},ignore_index=True)
-print(links)
 links.to_csv('BadLinks.csv', mode='a', index=False, header=False)   
