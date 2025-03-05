@@ -104,7 +104,7 @@ def query_loop() -> None:
     """The simple query loop. The try/except structure is to catch Ctrl-C or Ctrl-D
     characters and exit gracefully.
     """
-    print("Welcome to the movie database!\n")
+    print("Welcome to the Homograph database!\n")
     while True:
         try:
             print()
