@@ -1,4 +1,5 @@
 from typing import List, Tuple, Callable, Any
+#from homographTest import whateverDarwinEndsUpNamingTheirFunctions
 def match(pattern: List[str], source: List[str]) -> List[str]:
     """Attempts to match the pattern to the source.
 
@@ -67,6 +68,55 @@ def match(pattern: List[str], source: List[str]) -> List[str]:
             return None
 
     return result
+
+def isHomographic(input:str) -> bool:
+    pass
+
+# The pattern-action list for the natural language query system A list of tuples of
+# pattern and action It must be declared here, after all of the function definitions
+# Entries in the PA list are written in the form (str.split("Query"), responseFunction),
+pa_list: List[Tuple[List[str], Callable[[List[str]], List[Any]]]] = [
+]
+
+
+def search_pa_list(src: List[str]) -> List[str]:
+    """Takes source, finds matching pattern and calls corresponding action. If it finds
+    a match but has no answers it returns ["No answers"]. If it finds no match it
+    returns ["I don't understand"].
+
+    Args:
+        source - a phrase represented as a list of words (strings)
+
+    Returns:
+        a list of answers. Will be ["I don't understand"] if it finds no matches and
+        ["No answers"] if it finds a match but no answers
+    """
+    for pa in pa_list:
+        if match(pa[0],src) != None:
+            answer = pa[1](match(pa[0],src))
+            if answer == []:
+                return ["No answers"]
+            else: return answer
+    return ["I don't understand"] 
+
+
+def query_loop() -> None:
+    """The simple query loop. The try/except structure is to catch Ctrl-C or Ctrl-D
+    characters and exit gracefully.
+    """
+    print("Welcome to the Homograph database!\n")
+    while True:
+        try:
+            print()
+            query = input("Your query? ").replace("?", "").lower().split()
+            answers = search_pa_list(query)
+            for ans in answers:
+                print(ans)
+
+        except (KeyboardInterrupt, EOFError):
+            break
+
+    print("\nSo long!\n")
 
 # def query_loop() -> None:
 #     """The simple query loop. The try/except structure is to catch Ctrl-C or Ctrl-D
