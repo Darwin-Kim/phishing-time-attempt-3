@@ -7,8 +7,12 @@ import time
 #-----------------------------------------------------------------------------------------------------------------------------------------------
 # INPUTTING A SUSPISCIOUS LINK
 # TODO:
-#   - Add an API/chatbot into this section of the code (Basically start from scratch, this is just a placeholder for the final product)
-#   - Have the code put the suspiscious link into the SusLinks.csv file so this section of code can be seperate from the section below
+#   ISABEL 
+# - Add an API/chatbot into this section of the code
+#
+#   DARWIN 
+# - Have the code put the suspiscious link into the SusLinks.csv file so this section of code can be seperate from the section below
+# - Separate between links that the code *KNOWS* is suspiscious and links that the code *THINKS* is suspiscious
 iterations=0
 NumChangeLetter=1
 Base="classroom.google.com"
@@ -51,6 +55,9 @@ for i in range(NumChangeLetter):
 
         except TypeError:
             pass
+
+# -------------------------------------------------- HERE ON OUT IS NOT TEMPORARY ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 # Printing the possibly suspiscious link to visualize it
 print(input)
 links=links.append({'Link':input,'Date':time.ctime()},ignore_index=True)
@@ -69,9 +76,10 @@ if bad==1:
 
     # Checking if the link is equivalent to a link already in the database, and adding it to the database if it isn't
     for i2 in range(len(BadLinks)) and range(len(links)):
-        if not links.at[i2,'Link']==BadLinks.at[i2,'Link']:
-            links.to_csv('BadLinks.csv', mode='a', index=False, header=False)
-            
+        if links.at[i2,'Link']==BadLinks.at[i2,'Link']:
+            same=1
+    if same==0:links.to_csv('BadLinks.csv', mode='a', index=False, header=False)
+
 # Adding the code to database of suspiscious links to be passed on to the second block if it is not immediately flagged as bad
 else:
     links.to_csv('SusLinks.csv', mode='a', index=False, header=False)
@@ -80,10 +88,7 @@ else:
 #---------------------------------------------------------------------------------------------------------------------------------------------------
 # CHECKING IF THE GIVEN LINK IS HOMOGRAPHIC (going to be put into a different code file at some point)
 #TODO:
-#  - Rewrite code so it takes links from SusLinks.csv and removes them from SusLinks.csv once it has run them through the system 
-#    so this section of code can be seperate from the section above
-#
-#  - Rewrite code so it does not delete the links in BadLinks.csv every time it runs
+#  - DARWIN -  start testing in this section (finish testing in previous section first)
 
 SusLinks=pd.read_csv('SusLinks.csv')
 TrustedLinks=pd.read_csv('TrustedLinks.csv')
