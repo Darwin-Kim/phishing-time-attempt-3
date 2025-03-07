@@ -11,13 +11,7 @@ import time
 # - Add an API/chatbot into this section of the code
 #
 #   DARWIN 
-# - Finish making functions
-# - fix link printing twice into csv and delete temporary(probably) workaround
 
-AcceptedCharacters=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
-                    'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
-                    '`','1','2','3','4','5','6','7','8','9','0','-','=','[',']','\\',';',"'",',','.','/'
-                    '~','!','@','#','$','%','^','&','*','(',')','_','+','{','}', '|',':','"','<','>','?']
 iterations=0
 NumChangeLetter=1
 Base="classroom.google.com"
@@ -27,12 +21,6 @@ TrustedLinks=pd.read_csv('TrustedLinks.csv')
 SusLinks=pd.read_csv('SusLinks.csv')
 print(TrustedLinks)
 
-def HasNonLatinCharacters(latinCharacters,link):
-    for i in range(len(link)):
-        if link[i] not in latinCharacters:
-            return True
-        else:
-            return False
 
 # Running the code to replace NumChangeLetter letters with similar
 # counterparts
@@ -73,14 +61,14 @@ for i in range(NumChangeLetter):
 print('input: ',input)
 
 # function for 1st homograph test (whether the link contains nonlatin characters)
-def HomographTest1(link):
+def HomographTest1(input):
     AcceptedCharacters=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
                     'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
                     '`','1','2','3','4','5','6','7','8','9','0','-','=','[',']','\\',';',"'",',','.','/'
                     '~','!','@','#','$','%','^','&','*','(',')','_','+','{','}', '|',':','"','<','>','?']
-    for i in range(len(link)):
+    for i in range(len(input)):
         if link[i] not in AcceptedCharacters:
-            BadLinksAppend(link)
+            BadLinksAppend(input)
 
 def BadLinksAppend(input):
     same=0
