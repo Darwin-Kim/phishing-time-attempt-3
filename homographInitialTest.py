@@ -11,7 +11,7 @@ import time
 # - Add an API/chatbot into this section of the code
 #
 #   DARWIN 
-# - Have the code put the suspiscious link into the SusLinks.csv file so this section of code can be seperate from the section below
+# - Finish making functions
 # - fix link printing twice into csv and delete temporary(probably) workaround
 
 AcceptedCharacters=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
@@ -23,7 +23,6 @@ NumChangeLetter=1
 Base="classroom.google.com"
 input="classroom.google.com"
 
-links=pd.DataFrame(columns=['Date','Link'])
 TrustedLinks=pd.read_csv('TrustedLinks.csv')
 SusLinks=pd.read_csv('SusLinks.csv')
 print(TrustedLinks)
@@ -71,30 +70,29 @@ for i in range(NumChangeLetter):
 # -------------------------------------------------- HERE ON OUT IS NOT TEMPORARY ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # Printing the possibly suspiscious link to visualize it
-print(input)
-links=links.append({'Link':input,'Date':time.ctime()},ignore_index=True)
-bad=0
+print('input: ',input)
 
-# Checking if the link contains a character that is not a latin/special character
-bad=HasNonLatinCharacters(AcceptedCharacters,input)
+# function for 1st homograph test (whether the link contains nonlatin characters)
+def HomographTest1(link):
+    AcceptedCharacters=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
+                    'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+                    '`','1','2','3','4','5','6','7','8','9','0','-','=','[',']','\\',';',"'",',','.','/'
+                    '~','!','@','#','$','%','^','&','*','(',')','_','+','{','}', '|',':','"','<','>','?']
+    for i in range(len(link)):
+        if link[i] not in AcceptedCharacters:
+            BadLinksAppend(link)
 
-# Running the code below if the link contains one of these characters
-print(bad)
-if bad:
+def BadLinksAppend(input):
     same=0
     BadLinks=pd.read_csv('BadLinks.csv')
     # Checking if the link is equivalent to a link already in the database, and adding it to the database if it isn't
-    for i2 in range(len(BadLinks)) and range(len(links)):
-        if links.at[i2,'Link']==BadLinks.at[i2,'Link']:
+    for i2 in range(len(BadLinks)):
+        if input==BadLinks.at[i2,'Link']:
             same=1
-    if same==0:
-        print('bad:',links)
-        links.to_csv('BadLinks.csv', mode='a', index=False, header=False)
+        if same==0:
+            print('bad:',input)
+            input.to_csv('BadLinks.csv', mode='a', index=False, header=False)
 
 # Adding the code to database of suspiscious links to be passed on to the second block if it is not immediately flagged as bad
-else:
-    print('Pass on:',links)
-    links.to_csv('SusLinks.csv',index=False)
-
-
 #---------------------------------------------------------------------------------------------------------------------------------------------------
+HomographTest1(input)
