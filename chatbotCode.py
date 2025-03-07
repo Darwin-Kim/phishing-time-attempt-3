@@ -1,5 +1,5 @@
 from typing import List, Tuple, Callable, Any
-#from homographTest import whateverDarwinEndsUpNamingTheirFunctions
+# from homographTest import whateverDarwinEndsUpNamingTheirFunctions
 def match(pattern: List[str], source: List[str]) -> List[str]:
     """Attempts to match the pattern to the source.
 
@@ -69,13 +69,22 @@ def match(pattern: List[str], source: List[str]) -> List[str]:
 
     return result
 
-def isHomographic(input:str) -> bool:
+def checkLink(input:str) -> List[str]:
     pass
+
+def giveInstructions(dummy: List[str]) -> List[str]:
+    return ["I can understand the following query patterns:","Does this link contain homographic characters: [Paste the link here]","What can I ask you to do?","Bye"]
+
+def bye_action(dummy: List[str]) -> None:
+    raise KeyboardInterrupt
 
 # The pattern-action list for the natural language query system A list of tuples of
 # pattern and action It must be declared here, after all of the function definitions
 # Entries in the PA list are written in the form (str.split("Query"), responseFunction),
 pa_list: List[Tuple[List[str], Callable[[List[str]], List[Any]]]] = [
+    (str.split("does this link contain homographic characters: %"), checkLink),
+    (str.split("what can i ask you to do"), giveInstructions),
+    (["bye"],bye_action)
 ]
 
 
@@ -97,14 +106,14 @@ def search_pa_list(src: List[str]) -> List[str]:
             if answer == []:
                 return ["No answers"]
             else: return answer
-    return ["I don't understand"] 
+    return ["I don't understand. Please type 'What can I ask you to do?' for information on what queries I can accept"] 
 
 
 def query_loop() -> None:
     """The simple query loop. The try/except structure is to catch Ctrl-C or Ctrl-D
     characters and exit gracefully.
     """
-    print("Welcome to the Homograph database!\n")
+    print("Welcome! I am a chatbot designed to keep you safe from phishing attacks! \n For a list of available commands, please ask: 'What can I ask you to do?'")
     while True:
         try:
             print()
@@ -118,17 +127,4 @@ def query_loop() -> None:
 
     print("\nSo long!\n")
 
-# def query_loop() -> None:
-#     """The simple query loop. The try/except structure is to catch Ctrl-C or Ctrl-D
-#     characters and exit gracefully.
-#     """
-#     print("Welcome to the movie database!\n")
-#     while True:
-#         try:
-#             print()
-
-#         except (KeyboardInterrupt, EOFError):
-#             break
-
-#     print("\nSo long!\n")
-
+query_loop()
