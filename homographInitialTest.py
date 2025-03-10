@@ -19,7 +19,6 @@ input="classroom.google.com"
 
 TrustedLinks=pd.read_csv('TrustedLinks.csv')
 SusLinks=pd.read_csv('SusLinks.csv')
-print(TrustedLinks)
 
 
 # Running the code to replace NumChangeLetter letters with similar
@@ -58,7 +57,6 @@ for i in range(NumChangeLetter):
 # -------------------------------------------------- HERE ON OUT IS NOT TEMPORARY ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # Printing the possibly suspiscious link to visualize it
-print('input: ',input)
 
 # function for 1st homograph test (whether the link contains nonlatin characters)
 def HomographTest1(input):
@@ -66,21 +64,33 @@ def HomographTest1(input):
                     'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
                     '`','1','2','3','4','5','6','7','8','9','0','-','=','[',']','\\',';',"'",',','.','/'
                     '~','!','@','#','$','%','^','&','*','(',')','_','+','{','}', '|',':','"','<','>','?']
+    bad=False
     for i in range(len(input)):
-        if link[i] not in AcceptedCharacters:
-            BadLinksAppend(input)
+        if input[i] not in AcceptedCharacters:
+            print('bad',input[i])
+            bad=True
+        else:
+            print('OK',input[i])
+    print('bad:',bad)
+    print(input)
+    if bad:
+        DfAppend(input,'BadLinks.csv')
+    else:
+        DfAppend(input,'SusLinks.csv')
 
-def BadLinksAppend(input):
+def DfAppend(input,csv):
     same=0
-    BadLinks=pd.read_csv('BadLinks.csv')
+    dataframe=pd.read_csv(csv)
+    print(pd.read_csv(csv))
     # Checking if the link is equivalent to a link already in the database, and adding it to the database if it isn't
-    for i2 in range(len(BadLinks)):
-        if input==BadLinks.at[i2,'Link']:
+    for i2 in range(len(dataframe)):
+        print(input,dataframe.at[i2,'Link'])
+        if input==dataframe.at[i2,'Link']:
             same=1
-        if same==0:
-            print('bad:',input)
-            input.to_csv('BadLinks.csv', mode='a', index=False, header=False)
-
-# Adding the code to database of suspiscious links to be passed on to the second block if it is not immediately flagged as bad
+    if same==0:
+        print('bad:',input)
+        input={'Date':[time.ctime()],'Link':[input]}
+        input_df=pd.DataFrame(input)
+        input_df.to_csv(csv, mode='a', index=False, header=False)
 #---------------------------------------------------------------------------------------------------------------------------------------------------
 HomographTest1(input)
