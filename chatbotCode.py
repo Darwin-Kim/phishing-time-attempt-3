@@ -72,8 +72,11 @@ def match(pattern: List[str], source: List[str]) -> List[str]:
 def checkLink(input:str) -> List[str]:
     pass
 
+def homographBlurb(dummy: List[str]) -> List[str]:
+    return ["A homographic character is a non-Latin character that looks extremely similar or visually identical to a Latin character. These characters can be used in phishing attacks to create fake links that are visually identical to trusted links but actually lead to the attacker’s website, which they will use to take a victim’s personal information or install malware on their device."]
+
 def giveInstructions(dummy: List[str]) -> List[str]:
-    return ["I can understand the following query patterns:","Does this link contain homographic characters: [Paste the link here]","What can I ask you to do?","Bye"]
+    return ["I can understand the following query patterns:","Does this link contain homographic characters: [Paste the link here]","What can I ask you to do?","What is a homograph?","Bye"]
 
 def bye_action(dummy: List[str]) -> None:
     raise KeyboardInterrupt
@@ -84,6 +87,7 @@ def bye_action(dummy: List[str]) -> None:
 pa_list: List[Tuple[List[str], Callable[[List[str]], List[Any]]]] = [
     (str.split("does this link contain homographic characters: %"), checkLink),
     (str.split("what can i ask you to do"), giveInstructions),
+    (str.split("what is a homograph"), homographBlurb),
     (["bye"],bye_action)
 ]
 
