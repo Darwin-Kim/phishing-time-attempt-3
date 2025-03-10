@@ -26,9 +26,6 @@ def match(pattern: List[str], source: List[str]) -> List[str]:
         if  sind < len(source) and pind == len(pattern):
             return None
         # 2) if the current thing in the pattern is a %
-        # WARNING: this condition contains the bulk of the code for the assignment
-        # If you get stuck on this one, we encourage you to attempt the other conditions
-        #   and come back to this one afterwards
         elif pattern[pind] == "%":
             percentString = ""
             if pind + 1 == len(pattern):
@@ -72,18 +69,26 @@ def match(pattern: List[str], source: List[str]) -> List[str]:
 def checkLink(input:str) -> List[str]:
     pass
 
+def generateSimilarLink(input:str) -> List[str]:
+    pass
+
+def homographBlurb(dummy: List[str]) -> List[str]:
+    return ["A homographic character is a non-Latin character that looks extremely similar or visually identical to a Latin character. These characters can be used in phishing attacks to create fake links that are visually identical to trusted links but actually lead to the attacker’s website, which they will use to take a victim’s personal information or install malware on their device. Can you tell these two links apart?","googlе.com","google.com"]
+
 def giveInstructions(dummy: List[str]) -> List[str]:
-    return ["I can understand the following query patterns:","Does this link contain homographic characters: [Paste the link here]","What can I ask you to do?","Bye"]
+    return ["I can understand the following query patterns:","Does this link contain homographic characters: [Paste the link here]","What can I ask you to do?","What is a homograph?","Bye"]
 
 def bye_action(dummy: List[str]) -> None:
     raise KeyboardInterrupt
 
-# The pattern-action list for the natural language query system A list of tuples of
-# pattern and action It must be declared here, after all of the function definitions
-# Entries in the PA list are written in the form (str.split("Query"), responseFunction),
+# A list of query patterns and their corresponding response functions
+# It must be declared here, after all of the function definitions
+# Entries in the PA list are written in the form (str.split("query"), responseFunction),
 pa_list: List[Tuple[List[str], Callable[[List[str]], List[Any]]]] = [
     (str.split("does this link contain homographic characters: %"), checkLink),
     (str.split("what can i ask you to do"), giveInstructions),
+    (str.split("what is a homograph"), homographBlurb),
+    (str.split("generate a homographic string for this link: %"), generateSimilarLink),
     (["bye"],bye_action)
 ]
 
