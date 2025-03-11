@@ -75,10 +75,8 @@ def HomographTest1(input):
     print(input)
     if bad:
         DfAppend(input,'BadLinks.csv')
-        return False
     else:
         DfAppend(input,'SusLinks.csv')
-        return True
 
 def DfAppend(input,csv):
     same=0
