@@ -73,10 +73,11 @@ def match(pattern: List[str], source: List[str]) -> List[str]:
     return result
 
 def checkLink(input:str) -> List[str]:
-    if HomographTest1(input):
-        return ["The link you have entered does not contain any homographs!", "However, you should still proceed with caution and make sure it is a trusted website."]
-    elif not HomographTest1(input):
-        return ["The link you have entered contains either homographic characters or characters I do not recognize.","It is likely dangerous, so please do not click it."]
+    pass
+    # if HomographTest1(input):
+    #     return ["The link you have entered does not contain any homographs!", "However, you should still proceed with caution and make sure it is a trusted website."]
+    # elif not HomographTest1(input):
+    #     return ["The link you have entered contains either homographic characters or characters I do not recognize.","It is likely dangerous, so please do not click it."]
 def generateSimilarLink(input:str) -> List[str]:
     pass
 
