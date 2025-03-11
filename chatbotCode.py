@@ -1,4 +1,10 @@
 from typing import List, Tuple, Callable, Any
+import pandas as pd
+from homographInitialTest import HomographTest1 , DfAppend
+links=pd.DataFrame(columns=['Date','Link'])
+SusLinks=pd.read_csv('SusLinks.csv')
+TrustedLinks=pd.read_csv('TrustedLinks.csv')
+
 # from homographTest import whateverDarwinEndsUpNamingTheirFunctions
 def match(pattern: List[str], source: List[str]) -> List[str]:
     """Attempts to match the pattern to the source.
