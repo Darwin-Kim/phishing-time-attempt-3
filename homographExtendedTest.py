@@ -7,8 +7,7 @@ import time
 #-----------------------------------------------------------------------------------------------------------------------------------------------
 #TODO:
 #  DARWIN
-#  - Change code to allow for a queue in SusLinks.csv
-#  - Add a check to ensure that the same link is not appended to BadLinks.csv twice (copy from initial test)
+#  - merge all code into homographTests and delete this file (i give up on trying to fix this monstrosity)
 #-----------------------------------------------------------------------------------------------------------------------------------------------
 
 links=pd.DataFrame(columns=['Date','Links'])
