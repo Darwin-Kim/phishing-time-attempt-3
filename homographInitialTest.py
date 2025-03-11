@@ -71,7 +71,7 @@ def HomographTest1(input) -> bool:
             bad=True
         else:
             print('OK',input[i])
-    print('bad:',bad)
+    print('Homographic:',bad)
     print(input)
     if bad:
         DfAppend(input,'BadLinks.csv')
