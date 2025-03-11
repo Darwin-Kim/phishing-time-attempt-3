@@ -9,8 +9,6 @@ import time
 # TODO:
 #   ISABEL 
 # - Add an API/chatbot into this section of the code
-#
-#   DARWIN 
 
 iterations=0
 NumChangeLetter=1
@@ -57,7 +55,6 @@ for i in range(NumChangeLetter):
 # -------------------------------------------------- HERE ON OUT IS NOT TEMPORARY ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # Printing the possibly suspiscious link to visualize it
-
 # function for 1st homograph test (whether the link contains nonlatin characters)
 def HomographTest1(input):
     AcceptedCharacters=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
@@ -77,19 +74,28 @@ def HomographTest1(input):
         DfAppend(input,'BadLinks.csv')
     else:
         DfAppend(input,'SusLinks.csv')
+        HomographTest2()
 
+def HomographTest2():
+    links=pd.DataFrame(columns=['Date','Links'])
+    SusLinks=pd.read_csv('SusLinks.csv')
+    TrustedLinks=pd.read_csv('TrustedLinks.csv')
+    for i in range(len(SusLinks)):
+        print(SusLinks['Links'][i])
+        
+        
 def DfAppend(input,csv):
     same=0
     dataframe=pd.read_csv(csv)
     print(pd.read_csv(csv))
     # Checking if the link is equivalent to a link already in the database, and adding it to the database if it isn't
     for i2 in range(len(dataframe)):
-        print(input,dataframe.at[i2,'Link'])
-        if input==dataframe.at[i2,'Link']:
+        print(input,dataframe.at[i2,'Links'])
+        if input==dataframe.at[i2,'Links']:
             same=1
     if same==0:
         print('bad:',input)
-        input={'Date':[time.ctime()],'Link':[input]}
+        input={'Date':[time.ctime()],'Links':[input]}
         input_df=pd.DataFrame(input)
         input_df.to_csv(csv, mode='a', index=False, header=False)
 #---------------------------------------------------------------------------------------------------------------------------------------------------
