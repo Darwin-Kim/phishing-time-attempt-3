@@ -74,16 +74,21 @@ def HomographTest1(input):
         DfAppend(input,'BadLinks.csv')
     else:
         DfAppend(input,'SusLinks.csv')
-        HomographTest2()
+        SusLinks=pd.read_csv('SusLinks.csv')
+        TrustedLinks=pd.read_csv('TrustedLinks.csv')
+        HomographTest2(SusLinks,TrustedLinks)
 
-def HomographTest2():
+def HomographTest2(InputFile, CheckFile):
     links=pd.DataFrame(columns=['Date','Links'])
-    SusLinks=pd.read_csv('SusLinks.csv')
-    TrustedLinks=pd.read_csv('TrustedLinks.csv')
-    for i in range(len(SusLinks)):
-        print(SusLinks['Links'][i])
-        
-        
+    for i in range(len(InputFile)):
+        linkToCheck=InputFile['Links'][i]
+        for i2 in range(len(CheckFile)):
+            if homograph.looks_similar(InputFile['Links'][i],CheckFile['Links'][i2]):
+                links=links.append({'Links':linkToCheck,'Date':time.ctime()},ignore_index=True)
+    DfAppend(linkToCheck,'BadLinks.csv')
+    f=open('SusLinks.csv','w')
+    f.truncate()
+    f.close()
 def DfAppend(input,csv):
     same=0
     dataframe=pd.read_csv(csv)
