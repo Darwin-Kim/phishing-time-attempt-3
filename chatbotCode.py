@@ -102,7 +102,7 @@ def homographBlurb(dummy: List[str]) -> List[str]:
     return ["A homographic character is a non-Latin character that looks extremely similar or visually identical to a Latin character. These characters can be used in phishing attacks to create fake links that are visually identical to trusted links but actually lead to the attacker’s website, which they will use to take a victim’s personal information or install malware on their device. Can you tell these two links apart?","googlе.com","google.com"]
 
 def giveInstructions(dummy: List[str]) -> List[str]:
-    return ["I can understand the following query patterns:","Does this link contain homographic characters: [Paste the link here]","What can I ask you to do?","What is a homograph?","Bye"]
+    return ["I can understand the following query patterns:","Does this link contain homographic characters: [Paste the link here]","What can I ask you to do?","What is a homograph?","What is a phishing attack?","Bye"]
 
 def bye_action(dummy: List[str]) -> None:
     raise KeyboardInterrupt
