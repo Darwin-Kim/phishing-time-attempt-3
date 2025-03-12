@@ -1,6 +1,6 @@
 from typing import List, Tuple, Callable, Any
 import pandas as pd
-from homographTests import HomographTest1 , DfAppend
+from homographTests import DfAppend
 links=pd.DataFrame(columns=['Date','Link'])
 SusLinks=pd.read_csv('SusLinks.csv')
 TrustedLinks=pd.read_csv('TrustedLinks.csv')
@@ -72,20 +72,37 @@ def match(pattern: List[str], source: List[str]) -> List[str]:
 
     return result
 
+def isHomographic(input:str) -> bool:
+    AcceptedCharacters=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
+                    'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+                    '`','1','2','3','4','5','6','7','8','9','0','-','=','[',']','\\',';',"'",',','.','/'
+                    '~','!','@','#','$','%','^','&','*','(',')','_','+','{','}', '|',':','"','<','>','?']
+    for i in range(len(input)):
+        if input[i] not in AcceptedCharacters:
+            print('Homographic',input[i])
+            return True
+    return False
+
+
 def checkLink(input:str) -> List[str]:
     pass
-    # if HomographTest1(input):
-    #     return ["The link you have entered does not contain any homographs!", "However, you should still proceed with caution and make sure it is a trusted website."]
-    # elif not HomographTest1(input):
-    #     return ["The link you have entered contains either homographic characters or characters I do not recognize.","It is likely dangerous, so please do not click it."]
+    if not isHomographic(input):
+        DfAppend(input,'SusLinks.csv')
+        return ["The link you have entered does not contain any homographs!", "However, you should still proceed with caution and make sure it is a trusted website."]
+    elif isHomographic(input):
+        DfAppend(input,'BadLinks.csv')
+        return ["The link you have entered contains either homographic characters or characters I do not recognize.","It is likely dangerous, so please do not click it."]
 def generateSimilarLink(input:str) -> List[str]:
     pass
+
+def phishingBlurb(dummy: List[str]) -> List[str]:
+    return ["A phishing attack is a cyberattack in which the attacker impersonates a legitimate institution in an attempt to steal the victim’s personal information. Phishing is the most important form of cybercrime, so it is important to know how to avoid it.","Phishing attacks often take the form of emails, but can also be phone calls, text messages, or even malicious QR codes pasted over legitimate ones.","Attackers will often use your information to steal your money, but another common way they will use your information is to inform ‘spear phishing’ attacks on others. Spear phishing attacks are targeted to specific people, often executives or people with access to important information. These attacks use personal information to make themselves seem more legitimate in order to convince their targets into giving away valuable information."]
 
 def homographBlurb(dummy: List[str]) -> List[str]:
     return ["A homographic character is a non-Latin character that looks extremely similar or visually identical to a Latin character. These characters can be used in phishing attacks to create fake links that are visually identical to trusted links but actually lead to the attacker’s website, which they will use to take a victim’s personal information or install malware on their device. Can you tell these two links apart?","googlе.com","google.com"]
 
 def giveInstructions(dummy: List[str]) -> List[str]:
-    return ["I can understand the following query patterns:","Does this link contain homographic characters: [Paste the link here]","What can I ask you to do?","What is a homograph?","Bye"]
+    return ["I can understand the following query patterns:","Does this link contain homographic characters: [Paste the link here]","What can I ask you to do?","What is a homograph?","What is a phishing attack?","Bye [Closes program]"]
 
 def bye_action(dummy: List[str]) -> None:
     raise KeyboardInterrupt
@@ -97,7 +114,12 @@ pa_list: List[Tuple[List[str], Callable[[List[str]], List[Any]]]] = [
     (str.split("does this link contain homographic characters: %"), checkLink),
     (str.split("what can i ask you to do"), giveInstructions),
     (str.split("what is a homograph"), homographBlurb),
-    (str.split("generate a homographic string for this link: %"), generateSimilarLink),
+    (str.split("tell me about homographs"), homographBlurb),
+    (str.split("what is a phishing attack"), phishingBlurb),
+    (str.split("what is phishing"),phishingBlurb),
+    (str.split("tell me about phishing"),phishingBlurb),
+    (str.split("tell me about phishing attacks"),phishingBlurb),
+    #(str.split("generate a homographic string for this link: %"), generateSimilarLink),
     (["bye"],bye_action)
 ]
 
