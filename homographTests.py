@@ -86,9 +86,10 @@ def HomographTest2(InputFile, CheckFile):
             if homograph.looks_similar(InputFile['Links'][i],CheckFile['Links'][i2]):
                 links=links.append({'Links':linkToCheck,'Date':time.ctime()},ignore_index=True)
     DfAppend(linkToCheck,'BadLinks.csv')
-    f=open('SusLinks.csv','w')
-    f.truncate()
-    f.close()
+    #f=open('SusLinks.csv','w')
+    #f.truncate()
+    #f.close()
+
 def DfAppend(input,csv):
     same=0
     dataframe=pd.read_csv(csv)
