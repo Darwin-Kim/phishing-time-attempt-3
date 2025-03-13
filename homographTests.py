@@ -15,9 +15,6 @@ NumChangeLetter=1
 Base="classroom.google.com"
 input="classroom.google.com"
 
-TrustedLinks=pd.read_csv('TrustedLinks.csv')
-SusLinks=pd.read_csv('SusLinks.csv')
-
 
 # Running the code to replace NumChangeLetter letters with similar
 # counterparts
