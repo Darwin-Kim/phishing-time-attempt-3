@@ -85,12 +85,11 @@ def isHomographic(input:str) -> bool:
 
 
 def checkLink(input:str) -> List[str]:
-    pass
     if not isHomographic(input):
-        DfAppend(input,'SusLinks.csv')
+        DfAppend(input[0],'SusLinks.csv')
         return ["The link you have entered does not contain any homographs!", "However, you should still proceed with caution and make sure it is a trusted website."]
     elif isHomographic(input):
-        DfAppend(input,'BadLinks.csv')
+        DfAppend(input[0],'BadLinks.csv')
         return ["The link you have entered contains either homographic characters or characters I do not recognize.","It is likely dangerous, so please do not click it."]
 def generateSimilarLink(input:str) -> List[str]:
     pass
