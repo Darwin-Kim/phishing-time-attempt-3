@@ -72,14 +72,15 @@ def match(pattern: List[str], source: List[str]) -> List[str]:
 
     return result
 
-def isHomographic(input:str) -> bool:
+def isHomographic(input:List[str]) -> bool:
+    string = input[0]
     AcceptedCharacters=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
                     'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
                     '`','1','2','3','4','5','6','7','8','9','0','-','=','[',']','\\',';',"'",',','.','/'
                     '~','!','@','#','$','%','^','&','*','(',')','_','+','{','}', '|',':','"','<','>','?']
-    for i in range(len(input)):
+    for i in range(len(string)):
         if input[i] not in AcceptedCharacters:
-            print('Homographic',input[i])
+            print('Homographic',string[i])
             return True
     return False
 
