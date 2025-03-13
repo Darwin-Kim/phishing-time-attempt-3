@@ -85,7 +85,6 @@ def isHomographic(input:str) -> bool:
 
 
 def checkLink(input:str) -> List[str]:
-    pass
     if not isHomographic(input):
         DfAppend(input,'SusLinks.csv')
         return ["The link you have entered does not contain any homographs!", "However, you should still proceed with caution and make sure it is a trusted website."]
